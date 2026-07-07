@@ -1,0 +1,100 @@
+name: " Push Power Platform changes"
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to push changes to
+        required: true
+      solutionFolder:
+        description: Folder name of the Power Platform solution (leave empty to use AL-Go setting)
+        required: false
+
+permissions:
+  actions: read
+  contents: read
+  id-token: write
+
+defaults:
+  run:
+    shell: powershell
+
+jobs:
+  PushChanges:
+    runs-on: [windows-latest]
+    name: Push changes to ${{ inputs.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Initialize the workflow
+        id: init
+        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@cd406114588a60db555094b8fc7f19676d82ae58
+        with:
+          shell: powershell
+
+      - name: EnvName
+        env:
+          _environment: ${{ inputs.environment }}
+        run: |
+          $errorActionPreference = "Stop"; $ProgressPreference = "SilentlyContinue"; Set-StrictMode -Version 2.0
+          # Environment names can contains spaces and tags (like (PROD) etc. We need to remove them to get the correct environment name)
+          $envName = "$env:_environment".Split(' ')[0]
+          Add-Content -encoding utf8 -Path $env:GITHUB_ENV -Value "envName=$envName"
+
+      - name: Read settings
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@cd406114588a60db555094b8fc7f19676d82ae58
+        with:
+          shell: powershell
+          get: powerPlatformSolutionFolder
+
+      - name: Read secrets
+        id: ReadSecrets
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@cd406114588a60db555094b8fc7f19676d82ae58
+        with:
+          shell: powershell
+          gitHubSecrets: ${{ toJson(secrets) }}
+          getSecrets: '${{ env.envName }}-AuthContext,${{ env.envName }}_AuthContext,AuthContext'
+
+      - name: Determine Deployment Environments
+        id: DetermineDeploymentEnvironments
+        uses: Freddy-DK/AL-Go/Actions/DetermineDeploymentEnvironments@cd406114588a60db555094b8fc7f19676d82ae58
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          shell: powershell
+          getEnvironments: ${{ inputs.environment }}
+          type: 'All'
+
+      - name: Set Power Platform solution folder
+        env:
+          _solutionFolder: ${{ inputs.solutionFolder }}
+        run: |
+          $errorActionPreference = "Stop"; $ProgressPreference = "SilentlyContinue"; Set-StrictMode -Version 2.0
+          $solutionFolder = $env:_solutionFolder
+          if ($solutionFolder -eq '') {
+            Write-Host "Solution folder is not provided. Taking the folder from AL-Go settings"
+            $solutionFolder = $env:powerPlatformSolutionFolder
+          }
+          Write-Host "Solution folder: $solutionFolder"
+          Add-Content -encoding utf8 -Path $env:GITHUB_ENV -Value "solutionFolder=$solutionFolder"
+
+      - name: Export and push changes to Power Platform
+        uses: Freddy-DK/AL-Go/Actions/DeployPowerPlatform@cd406114588a60db555094b8fc7f19676d82ae58
+        env:
+          Secrets: '${{ steps.ReadSecrets.outputs.Secrets }}'
+        with:
+          shell: powershell
+          environmentName: ${{ inputs.environment }}
+          solutionFolder: ${{ env.solutionFolder }}
+          deploymentEnvironmentsJson: ${{ steps.DetermineDeploymentEnvironments.outputs.deploymentEnvironmentsJson }}
+
+      - name: Finalize the workflow
+        if: always()
+        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@cd406114588a60db555094b8fc7f19676d82ae58
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          shell: powershell
+          telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
+          currentJobContext: ${{ toJson(job) }}
