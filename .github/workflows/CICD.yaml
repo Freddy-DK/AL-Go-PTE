@@ -51,7 +51,7 @@ jobs:
       trackALAlertsInGitHub: ${{ steps.SetALCodeAnalysisVar.outputs.trackALAlertsInGitHub }}
     steps:
       - name: Dump Workflow Information
-        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         with:
           shell: powershell
 
@@ -62,13 +62,13 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         with:
           shell: powershell
 
       - name: Read settings
         id: ReadSettings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         with:
           shell: powershell
           get: type,powerPlatformSolutionFolder,useGitSubmodules,trackALAlertsInGitHub
@@ -82,7 +82,7 @@ jobs:
       - name: Read submodules token
         id: ReadSubmodulesToken
         if: env.useGitSubmodules != 'false' && env.useGitSubmodules != ''
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -103,7 +103,7 @@ jobs:
 
       - name: Determine Projects To Build
         id: determineProjectsToBuild
-        uses: Freddy-DK/AL-Go/Actions/DetermineProjectsToBuild@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/DetermineProjectsToBuild@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         with:
           shell: powershell
           maxBuildDepth: ${{ env.workflowDepth }}
@@ -116,7 +116,7 @@ jobs:
 
       - name: Determine Delivery Target Secrets
         id: DetermineDeliveryTargetSecrets
-        uses: Freddy-DK/AL-Go/Actions/DetermineDeliveryTargets@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/DetermineDeliveryTargets@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         with:
           shell: powershell
           projectsJson: '${{ steps.determineProjectsToBuild.outputs.ProjectsJson }}'
@@ -124,7 +124,7 @@ jobs:
 
       - name: Read secrets
         id: ReadSecrets
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -132,7 +132,7 @@ jobs:
 
       - name: Determine Delivery Targets
         id: DetermineDeliveryTargets
-        uses: Freddy-DK/AL-Go/Actions/DetermineDeliveryTargets@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/DetermineDeliveryTargets@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         env:
           Secrets: '${{ steps.ReadSecrets.outputs.Secrets }}'
         with:
@@ -142,7 +142,7 @@ jobs:
 
       - name: Determine Deployment Environments
         id: DetermineDeploymentEnvironments
-        uses: Freddy-DK/AL-Go/Actions/DetermineDeploymentEnvironments@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/DetermineDeploymentEnvironments@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
@@ -158,21 +158,21 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: Read settings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         with:
           shell: powershell
           get: templateUrl
 
       - name: Read secrets
         id: ReadSecrets
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
           getSecrets: 'ghTokenWorkflow'
 
       - name: Check for updates to AL-Go system files
-        uses: Freddy-DK/AL-Go/Actions/CheckForUpdates@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/CheckForUpdates@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
@@ -242,7 +242,7 @@ jobs:
       - name: Process AL Code Analysis Logs
         id: ProcessALCodeAnalysisLogs
         if: (success() || failure())
-        uses: Freddy-DK/AL-Go/Actions/ProcessALCodeAnalysisLogs@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/ProcessALCodeAnalysisLogs@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         with:
           shell: powershell
 
@@ -278,13 +278,13 @@ jobs:
           path: '.artifacts'
 
       - name: Read settings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         with:
           shell: powershell
 
       - name: Determine ArtifactUrl
         id: determineArtifactUrl
-        uses: Freddy-DK/AL-Go/Actions/DetermineArtifactUrl@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/DetermineArtifactUrl@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         with:
           shell: powershell
 
@@ -293,7 +293,7 @@ jobs:
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
 
       - name: Build Reference Documentation
-        uses: Freddy-DK/AL-Go/Actions/BuildReferenceDocumentation@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/BuildReferenceDocumentation@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         with:
           shell: powershell
           artifacts: '.artifacts'
@@ -336,7 +336,7 @@ jobs:
           path: '.artifacts'
 
       - name: Read settings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         with:
           shell: ${{ matrix.shell }}
           get: type,powerPlatformSolutionFolder
@@ -350,7 +350,7 @@ jobs:
 
       - name: Read secrets
         id: ReadSecrets
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         with:
           shell: ${{ matrix.shell }}
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -358,7 +358,7 @@ jobs:
 
       - name: Deploy to Business Central
         id: Deploy
-        uses: Freddy-DK/AL-Go/Actions/Deploy@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/Deploy@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         env:
           Secrets: '${{ steps.ReadSecrets.outputs.Secrets }}'
         with:
@@ -370,7 +370,7 @@ jobs:
 
       - name: Deploy to Power Platform
         if: env.type == 'PTE' && env.powerPlatformSolutionFolder != ''
-        uses: Freddy-DK/AL-Go/Actions/DeployPowerPlatform@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/DeployPowerPlatform@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         env:
           Secrets: '${{ steps.ReadSecrets.outputs.Secrets }}'
         with:
@@ -400,20 +400,20 @@ jobs:
           path: '.artifacts'
 
       - name: Read settings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         with:
           shell: powershell
 
       - name: Read secrets
         id: ReadSecrets
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
           getSecrets: '${{ matrix.deliveryTarget }}Context'
 
       - name: Deliver
-        uses: Freddy-DK/AL-Go/Actions/Deliver@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/Deliver@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         env:
           Secrets: '${{ steps.ReadSecrets.outputs.Secrets }}'
         with:
@@ -433,7 +433,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
+        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@d0245708d0bdacbc0c5b5c913087cdc3724c885c
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:

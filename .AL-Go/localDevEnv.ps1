@@ -133,6 +133,8 @@ function DownloadHelperFile {
         if ($notifyAuthenticatedAttempt) {
             Write-Host -ForegroundColor Red "Failed to download $name, trying authenticated download"
         }
+        # gh needs to be authenticated to download from private repos, so we try again with gh auth token
+        # no hostname specified, gh needs to be authenticated to github.com
         Invoke-WebRequest -UseBasicParsing -uri $url -OutFile $path -Headers @{ "Authorization" = "token $(gh auth token)" }
     }
     $ProgressPreference = $prevProgressPreference
@@ -154,12 +156,12 @@ Write-Host -ForegroundColor Yellow @'
 
 $tmpFolder = Join-Path ([System.IO.Path]::GetTempPath()) "$([Guid]::NewGuid().ToString())"
 New-Item -Path $tmpFolder -ItemType Directory -Force | Out-Null
-$GitHubHelperPath = DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83/Github-Helper.psm1' -folder $tmpFolder -notifyAuthenticatedAttempt
-$ReadSettingsModule = DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83/.Modules/ReadSettings.psm1' -folder $tmpFolder
-$debugLoggingModule = DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83/.Modules/DebugLogHelper.psm1' -folder $tmpFolder
-$ALGoHelperPath = DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83/AL-Go-Helper.ps1' -folder $tmpFolder
-DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83/.Modules/settings.schema.json' -folder $tmpFolder | Out-Null
-DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83/Environment.Packages.proj' -folder $tmpFolder | Out-Null
+$GitHubHelperPath = DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/d0245708d0bdacbc0c5b5c913087cdc3724c885c/Github-Helper.psm1' -folder $tmpFolder -notifyAuthenticatedAttempt
+$ReadSettingsModule = DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/d0245708d0bdacbc0c5b5c913087cdc3724c885c/.Modules/ReadSettings.psm1' -folder $tmpFolder
+$debugLoggingModule = DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/d0245708d0bdacbc0c5b5c913087cdc3724c885c/.Modules/DebugLogHelper.psm1' -folder $tmpFolder
+$ALGoHelperPath = DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/d0245708d0bdacbc0c5b5c913087cdc3724c885c/AL-Go-Helper.ps1' -folder $tmpFolder
+DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/d0245708d0bdacbc0c5b5c913087cdc3724c885c/.Modules/settings.schema.json' -folder $tmpFolder | Out-Null
+DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/d0245708d0bdacbc0c5b5c913087cdc3724c885c/Environment.Packages.proj' -folder $tmpFolder | Out-Null
 
 Import-Module $GitHubHelperPath
 Import-Module $ReadSettingsModule
