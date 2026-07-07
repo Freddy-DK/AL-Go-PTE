@@ -42,7 +42,7 @@ jobs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
     steps:
       - name: Dump Workflow Information
-        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
 
@@ -51,19 +51,19 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
 
       - name: Read settings
         id: ReadSettings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
 
       - name: Determine Deployment Environments
         id: DetermineDeploymentEnvironments
-        uses: Freddy-DK/AL-Go/Actions/DetermineDeploymentEnvironments@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/DetermineDeploymentEnvironments@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
@@ -82,7 +82,7 @@ jobs:
 
       - name: Read secrets
         id: ReadSecrets
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         if: steps.DetermineDeploymentEnvironments.outputs.UnknownEnvironment == 1
         with:
           shell: powershell
@@ -114,7 +114,7 @@ jobs:
             Write-Host "No AuthContext provided for $envName, initiating Device Code flow"
             $ALGoHelperPath = "$([System.IO.Path]::GetTempFileName()).ps1"
             $webClient = New-Object System.Net.WebClient
-            $webClient.DownloadFile('https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/cd406114588a60db555094b8fc7f19676d82ae58/AL-Go-Helper.ps1', $ALGoHelperPath)
+            $webClient.DownloadFile('https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83/AL-Go-Helper.ps1', $ALGoHelperPath)
             . $ALGoHelperPath
             DownloadAndImportBcContainerHelper
             $authContext = New-BcAuthContext -includeDeviceLogin -deviceLoginTimeout ([TimeSpan]::FromSeconds(0))
@@ -150,21 +150,21 @@ jobs:
           Add-Content -Encoding UTF8 -Path $env:GITHUB_OUTPUT -Value "envName=$envName"
 
       - name: Read settings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: ${{ matrix.shell }}
           get: type,powerPlatformSolutionFolder
 
       - name: Read secrets
         id: ReadSecrets
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: ${{ matrix.shell }}
           gitHubSecrets: ${{ toJson(secrets) }}
           getSecrets: '${{ steps.envName.outputs.envName }}-AuthContext,${{ steps.envName.outputs.envName }}_AuthContext,AuthContext'
 
       - name: Get Artifacts for deployment
-        uses: Freddy-DK/AL-Go/Actions/GetArtifactsForDeployment@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/GetArtifactsForDeployment@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: ${{ matrix.shell }}
           artifactsVersion: ${{ github.event.inputs.appVersion }}
@@ -173,7 +173,7 @@ jobs:
 
       - name: Deploy to Business Central
         id: Deploy
-        uses: Freddy-DK/AL-Go/Actions/Deploy@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/Deploy@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         env:
           Secrets: '${{ steps.ReadSecrets.outputs.Secrets }}'
         with:
@@ -186,7 +186,7 @@ jobs:
 
       - name: Deploy to Power Platform
         if: env.type == 'PTE' && env.powerPlatformSolutionFolder != ''
-        uses: Freddy-DK/AL-Go/Actions/DeployPowerPlatform@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/DeployPowerPlatform@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         env:
           Secrets: '${{ steps.ReadSecrets.outputs.Secrets }}'
         with:
@@ -205,7 +205,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:

@@ -78,7 +78,7 @@ jobs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
     steps:
       - name: Dump Workflow Information
-        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
 
@@ -87,26 +87,26 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
 
       - name: Read settings
         id: ReadSettings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
           get: templateUrl,repoName,type,powerPlatformSolutionFolder
 
       - name: Validate Workflow Input
         if: ${{ github.event_name == 'workflow_dispatch' }}
-        uses: Freddy-DK/AL-Go/Actions/ValidateWorkflowInput@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/ValidateWorkflowInput@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
 
       - name: Read secrets
         id: ReadSecrets
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -115,12 +115,12 @@ jobs:
 
       - name: Determine Projects
         id: determineProjects
-        uses: Freddy-DK/AL-Go/Actions/DetermineProjectsToBuild@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/DetermineProjectsToBuild@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
 
       - name: Check for updates to AL-Go system files
-        uses: Freddy-DK/AL-Go/Actions/CheckForUpdates@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/CheckForUpdates@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
@@ -130,7 +130,7 @@ jobs:
           downloadLatest: true
 
       - name: Determine artifacts for release
-        uses: Freddy-DK/AL-Go/Actions/DetermineArtifactsForRelease@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/DetermineArtifactsForRelease@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         id: determineArtifactsForRelease
         with:
           shell: powershell
@@ -141,7 +141,7 @@ jobs:
 
       - name: Prepare release notes
         id: createreleasenotes
-        uses: Freddy-DK/AL-Go/Actions/CreateReleaseNotes@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/CreateReleaseNotes@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
           buildVersion: ${{ github.event.inputs.buildVersion }}
@@ -190,13 +190,13 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: Read settings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
 
       - name: Read secrets
         id: ReadSecrets
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -240,7 +240,7 @@ jobs:
             });
 
       - name: Deliver to NuGet
-        uses: Freddy-DK/AL-Go/Actions/Deliver@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/Deliver@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         if: ${{ fromJson(steps.ReadSecrets.outputs.Secrets).nuGetContext != '' }}
         env:
           Secrets: '${{ steps.ReadSecrets.outputs.Secrets }}'
@@ -253,7 +253,7 @@ jobs:
           atypes: 'Apps,TestApps'
 
       - name: Deliver to Storage
-        uses: Freddy-DK/AL-Go/Actions/Deliver@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/Deliver@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         if: ${{ fromJson(steps.ReadSecrets.outputs.Secrets).storageContext != '' }}
         env:
           Secrets: '${{ steps.ReadSecrets.outputs.Secrets }}'
@@ -297,13 +297,13 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: Read settings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
 
       - name: Read secrets
         id: ReadSecrets
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -311,7 +311,7 @@ jobs:
           useGhTokenWorkflowForPush: '${{ github.event.inputs.useGhTokenWorkflow }}'
 
       - name: Update Version Number
-        uses: Freddy-DK/AL-Go/Actions/IncrementVersionNumber@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/IncrementVersionNumber@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
           token: ${{ steps.ReadSecrets.outputs.TokenForPush }}
@@ -329,7 +329,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:

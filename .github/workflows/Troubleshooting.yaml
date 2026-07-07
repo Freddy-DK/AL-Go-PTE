@@ -30,7 +30,7 @@ jobs:
           lfs: true
 
       - name: Troubleshooting
-        uses: Freddy-DK/AL-Go/Actions/Troubleshooting@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/Troubleshooting@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}

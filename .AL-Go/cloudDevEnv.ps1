@@ -141,12 +141,12 @@ Write-Host -ForegroundColor Yellow @'
 
 $tmpFolder = Join-Path ([System.IO.Path]::GetTempPath()) "$([Guid]::NewGuid().ToString())"
 New-Item -Path $tmpFolder -ItemType Directory -Force | Out-Null
-$GitHubHelperPath = DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/cd406114588a60db555094b8fc7f19676d82ae58/Github-Helper.psm1' -folder $tmpFolder -notifyAuthenticatedAttempt
-$ReadSettingsModule = DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/cd406114588a60db555094b8fc7f19676d82ae58/.Modules/ReadSettings.psm1' -folder $tmpFolder
-$debugLoggingModule = DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/cd406114588a60db555094b8fc7f19676d82ae58/.Modules/DebugLogHelper.psm1' -folder $tmpFolder
-$ALGoHelperPath = DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/cd406114588a60db555094b8fc7f19676d82ae58/AL-Go-Helper.ps1' -folder $tmpFolder
-DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/cd406114588a60db555094b8fc7f19676d82ae58/.Modules/settings.schema.json' -folder $tmpFolder | Out-Null
-DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/cd406114588a60db555094b8fc7f19676d82ae58/Environment.Packages.proj' -folder $tmpFolder | Out-Null
+$GitHubHelperPath = DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83/Github-Helper.psm1' -folder $tmpFolder -notifyAuthenticatedAttempt
+$ReadSettingsModule = DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83/.Modules/ReadSettings.psm1' -folder $tmpFolder
+$debugLoggingModule = DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83/.Modules/DebugLogHelper.psm1' -folder $tmpFolder
+$ALGoHelperPath = DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83/AL-Go-Helper.ps1' -folder $tmpFolder
+DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83/.Modules/settings.schema.json' -folder $tmpFolder | Out-Null
+DownloadHelperFile -url 'https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83/Environment.Packages.proj' -folder $tmpFolder | Out-Null
 
 Import-Module $GitHubHelperPath
 Import-Module $ReadSettingsModule

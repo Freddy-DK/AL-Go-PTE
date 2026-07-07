@@ -71,14 +71,14 @@ jobs:
 
       - name: Read settings
         id: ReadSettings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
           get: templateUrl
 
       - name: Get Workflow Multi-Run Branches
         id: GetBranches
-        uses: Freddy-DK/AL-Go/Actions/GetWorkflowMultiRunBranches@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/GetWorkflowMultiRunBranches@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
           workflowEventName: ${{ env.WorkflowEventName }}
@@ -108,7 +108,7 @@ jobs:
 
     steps:
       - name: Dump Workflow Information
-        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
 
@@ -119,19 +119,19 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
 
       - name: Read settings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
           get: commitOptions
 
       - name: Read secrets
         id: ReadSecrets
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -158,7 +158,7 @@ jobs:
           Add-Content -Encoding UTF8 -Path $env:GITHUB_ENV -Value "downloadLatest=$downloadLatest"
 
       - name: Update AL-Go system files
-        uses: Freddy-DK/AL-Go/Actions/CheckForUpdates@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/CheckForUpdates@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
@@ -172,7 +172,7 @@ jobs:
 
       - name: Finalize the workflow
         if: always()
-        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@cd406114588a60db555094b8fc7f19676d82ae58
+        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@5bcd2fe46fb4bcdcc7541c0840e5899f961f1a83
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
