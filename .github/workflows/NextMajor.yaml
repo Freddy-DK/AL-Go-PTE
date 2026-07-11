@@ -31,7 +31,7 @@ jobs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
     steps:
       - name: Dump Workflow Information
-        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@84f3fe617a6077e36e84c7f55718d41dc5386211
+        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@76436569ad7e715e74ffec7d753dd05e5b545b11
         with:
           shell: powershell
 
@@ -42,13 +42,13 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@84f3fe617a6077e36e84c7f55718d41dc5386211
+        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@76436569ad7e715e74ffec7d753dd05e5b545b11
         with:
           shell: powershell
 
       - name: Read settings
         id: ReadSettings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@84f3fe617a6077e36e84c7f55718d41dc5386211
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@76436569ad7e715e74ffec7d753dd05e5b545b11
         with:
           shell: powershell
           get: useGitSubmodules,shortLivedArtifactsRetentionDays
@@ -56,7 +56,7 @@ jobs:
       - name: Read submodules token
         id: ReadSubmodulesToken
         if: env.useGitSubmodules != 'false' && env.useGitSubmodules != ''
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@84f3fe617a6077e36e84c7f55718d41dc5386211
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@76436569ad7e715e74ffec7d753dd05e5b545b11
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -78,7 +78,7 @@ jobs:
 
       - name: Determine Projects To Build
         id: determineProjectsToBuild
-        uses: Freddy-DK/AL-Go/Actions/DetermineProjectsToBuild@84f3fe617a6077e36e84c7f55718d41dc5386211
+        uses: Freddy-DK/AL-Go/Actions/DetermineProjectsToBuild@76436569ad7e715e74ffec7d753dd05e5b545b11
         with:
           shell: powershell
           maxBuildDepth: ${{ env.workflowDepth }}
@@ -115,7 +115,7 @@ jobs:
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@84f3fe617a6077e36e84c7f55718d41dc5386211
+        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@76436569ad7e715e74ffec7d753dd05e5b545b11
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:

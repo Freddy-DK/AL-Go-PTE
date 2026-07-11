@@ -29,7 +29,7 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@84f3fe617a6077e36e84c7f55718d41dc5386211
+        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@76436569ad7e715e74ffec7d753dd05e5b545b11
         with:
           shell: powershell
 
@@ -43,14 +43,14 @@ jobs:
           Add-Content -encoding utf8 -Path $env:GITHUB_ENV -Value "envName=$envName"
 
       - name: Read settings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@84f3fe617a6077e36e84c7f55718d41dc5386211
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@76436569ad7e715e74ffec7d753dd05e5b545b11
         with:
           shell: powershell
           get: powerPlatformSolutionFolder
 
       - name: Read secrets
         id: ReadSecrets
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@84f3fe617a6077e36e84c7f55718d41dc5386211
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@76436569ad7e715e74ffec7d753dd05e5b545b11
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -58,7 +58,7 @@ jobs:
 
       - name: Determine Deployment Environments
         id: DetermineDeploymentEnvironments
-        uses: Freddy-DK/AL-Go/Actions/DetermineDeploymentEnvironments@84f3fe617a6077e36e84c7f55718d41dc5386211
+        uses: Freddy-DK/AL-Go/Actions/DetermineDeploymentEnvironments@76436569ad7e715e74ffec7d753dd05e5b545b11
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
@@ -80,7 +80,7 @@ jobs:
           Add-Content -encoding utf8 -Path $env:GITHUB_ENV -Value "solutionFolder=$solutionFolder"
 
       - name: Export and push changes to Power Platform
-        uses: Freddy-DK/AL-Go/Actions/DeployPowerPlatform@84f3fe617a6077e36e84c7f55718d41dc5386211
+        uses: Freddy-DK/AL-Go/Actions/DeployPowerPlatform@76436569ad7e715e74ffec7d753dd05e5b545b11
         env:
           Secrets: '${{ steps.ReadSecrets.outputs.Secrets }}'
         with:
@@ -91,7 +91,7 @@ jobs:
 
       - name: Finalize the workflow
         if: always()
-        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@84f3fe617a6077e36e84c7f55718d41dc5386211
+        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@76436569ad7e715e74ffec7d753dd05e5b545b11
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
