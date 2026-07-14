@@ -38,7 +38,7 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@76436569ad7e715e74ffec7d753dd05e5b545b11
+        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@1e4e0f362680e00b74128a5720bc014c2f9004df
         with:
           shell: powershell
 
@@ -51,14 +51,14 @@ jobs:
           Add-Content -encoding utf8 -Path $env:GITHUB_ENV -Value "envName=$envName"
 
       - name: Read settings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@76436569ad7e715e74ffec7d753dd05e5b545b11
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@1e4e0f362680e00b74128a5720bc014c2f9004df
         with:
           shell: powershell
           get: powerPlatformSolutionFolder
 
       - name: Read secrets
         id: ReadSecrets
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@76436569ad7e715e74ffec7d753dd05e5b545b11
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@1e4e0f362680e00b74128a5720bc014c2f9004df
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -67,7 +67,7 @@ jobs:
 
       - name: Determine Deployment Environments
         id: DetermineDeploymentEnvironments
-        uses: Freddy-DK/AL-Go/Actions/DetermineDeploymentEnvironments@76436569ad7e715e74ffec7d753dd05e5b545b11
+        uses: Freddy-DK/AL-Go/Actions/DetermineDeploymentEnvironments@1e4e0f362680e00b74128a5720bc014c2f9004df
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
@@ -89,7 +89,7 @@ jobs:
           Add-Content -encoding utf8 -Path $env:GITHUB_ENV -Value "solutionFolder=$solutionFolder"
 
       - name: Pull changes from Power Platform environment
-        uses: Freddy-DK/AL-Go/Actions/PullPowerPlatformChanges@76436569ad7e715e74ffec7d753dd05e5b545b11
+        uses: Freddy-DK/AL-Go/Actions/PullPowerPlatformChanges@1e4e0f362680e00b74128a5720bc014c2f9004df
         env:
           Secrets: '${{ steps.ReadSecrets.outputs.Secrets }}'
         with:
@@ -102,7 +102,7 @@ jobs:
 
       - name: Finalize the workflow
         if: always()
-        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@76436569ad7e715e74ffec7d753dd05e5b545b11
+        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@1e4e0f362680e00b74128a5720bc014c2f9004df
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:

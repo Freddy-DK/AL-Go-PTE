@@ -57,7 +57,7 @@ jobs:
     runs-on: [ windows-latest ]
     steps:
       - name: Dump Workflow Information
-        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@76436569ad7e715e74ffec7d753dd05e5b545b11
+        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@1e4e0f362680e00b74128a5720bc014c2f9004df
         with:
           shell: powershell
 
@@ -66,18 +66,18 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@76436569ad7e715e74ffec7d753dd05e5b545b11
+        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@1e4e0f362680e00b74128a5720bc014c2f9004df
         with:
           shell: powershell
 
       - name: Read settings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@76436569ad7e715e74ffec7d753dd05e5b545b11
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@1e4e0f362680e00b74128a5720bc014c2f9004df
         with:
           shell: powershell
 
       - name: Read secrets
         id: ReadSecrets
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@76436569ad7e715e74ffec7d753dd05e5b545b11
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@1e4e0f362680e00b74128a5720bc014c2f9004df
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -85,7 +85,7 @@ jobs:
           useGhTokenWorkflowForPush: '${{ github.event.inputs.useGhTokenWorkflow }}'
 
       - name: Creating a new test app
-        uses: Freddy-DK/AL-Go/Actions/CreateApp@76436569ad7e715e74ffec7d753dd05e5b545b11
+        uses: Freddy-DK/AL-Go/Actions/CreateApp@1e4e0f362680e00b74128a5720bc014c2f9004df
         with:
           shell: powershell
           token: ${{ steps.ReadSecrets.outputs.TokenForPush }}
@@ -100,7 +100,7 @@ jobs:
 
       - name: Finalize the workflow
         if: always()
-        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@76436569ad7e715e74ffec7d753dd05e5b545b11
+        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@1e4e0f362680e00b74128a5720bc014c2f9004df
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
