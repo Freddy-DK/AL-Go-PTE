@@ -48,7 +48,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Dump Workflow Information
-        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@1e4e0f362680e00b74128a5720bc014c2f9004df
+        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@c28527ddff5623e1efb33163b6131d16663e38e6
         with:
           shell: powershell
 
@@ -57,24 +57,24 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@1e4e0f362680e00b74128a5720bc014c2f9004df
+        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@c28527ddff5623e1efb33163b6131d16663e38e6
         with:
           shell: powershell
 
       - name: Read settings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@1e4e0f362680e00b74128a5720bc014c2f9004df
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@c28527ddff5623e1efb33163b6131d16663e38e6
         with:
           shell: powershell
 
       - name: Validate Workflow Input
         if: ${{ github.event_name == 'workflow_dispatch' }}
-        uses: Freddy-DK/AL-Go/Actions/ValidateWorkflowInput@1e4e0f362680e00b74128a5720bc014c2f9004df
+        uses: Freddy-DK/AL-Go/Actions/ValidateWorkflowInput@c28527ddff5623e1efb33163b6131d16663e38e6
         with:
           shell: powershell
 
       - name: Read secrets
         id: ReadSecrets
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@1e4e0f362680e00b74128a5720bc014c2f9004df
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@c28527ddff5623e1efb33163b6131d16663e38e6
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -82,7 +82,7 @@ jobs:
           useGhTokenWorkflowForPush: '${{ github.event.inputs.useGhTokenWorkflow }}'
 
       - name: Increment Version Number
-        uses: Freddy-DK/AL-Go/Actions/IncrementVersionNumber@1e4e0f362680e00b74128a5720bc014c2f9004df
+        uses: Freddy-DK/AL-Go/Actions/IncrementVersionNumber@c28527ddff5623e1efb33163b6131d16663e38e6
         with:
           shell: powershell
           token: ${{ steps.ReadSecrets.outputs.TokenForPush }}
@@ -93,7 +93,7 @@ jobs:
 
       - name: Finalize the workflow
         if: always()
-        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@1e4e0f362680e00b74128a5720bc014c2f9004df
+        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@c28527ddff5623e1efb33163b6131d16663e38e6
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
