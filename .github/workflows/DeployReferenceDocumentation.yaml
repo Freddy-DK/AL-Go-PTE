@@ -30,24 +30,24 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@c28527ddff5623e1efb33163b6131d16663e38e6
+        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@9e27a0a699982e360c6c07e1ce09ca92403d8060
         with:
           shell: powershell
 
       - name: Read settings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@c28527ddff5623e1efb33163b6131d16663e38e6
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@9e27a0a699982e360c6c07e1ce09ca92403d8060
         with:
           shell: powershell
 
       - name: Determine ArtifactUrl
         id: determineArtifactUrl
-        uses: Freddy-DK/AL-Go/Actions/DetermineArtifactUrl@c28527ddff5623e1efb33163b6131d16663e38e6
+        uses: Freddy-DK/AL-Go/Actions/DetermineArtifactUrl@9e27a0a699982e360c6c07e1ce09ca92403d8060
         with:
           shell: powershell
 
       - name: Determine Deployment Environments
         id: DetermineDeploymentEnvironments
-        uses: Freddy-DK/AL-Go/Actions/DetermineDeploymentEnvironments@c28527ddff5623e1efb33163b6131d16663e38e6
+        uses: Freddy-DK/AL-Go/Actions/DetermineDeploymentEnvironments@9e27a0a699982e360c6c07e1ce09ca92403d8060
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
@@ -60,7 +60,7 @@ jobs:
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
 
       - name: Build Reference Documentation
-        uses: Freddy-DK/AL-Go/Actions/BuildReferenceDocumentation@c28527ddff5623e1efb33163b6131d16663e38e6
+        uses: Freddy-DK/AL-Go/Actions/BuildReferenceDocumentation@9e27a0a699982e360c6c07e1ce09ca92403d8060
         with:
           shell: powershell
           artifacts: 'latest'
@@ -78,7 +78,7 @@ jobs:
 
       - name: Finalize the workflow
         if: always()
-        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@c28527ddff5623e1efb33163b6131d16663e38e6
+        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@9e27a0a699982e360c6c07e1ce09ca92403d8060
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:

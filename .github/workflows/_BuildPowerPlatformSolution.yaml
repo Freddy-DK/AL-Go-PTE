@@ -65,14 +65,14 @@ jobs:
           lfs: true
 
       - name: Read settings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@c28527ddff5623e1efb33163b6131d16663e38e6
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@9e27a0a699982e360c6c07e1ce09ca92403d8060
         with:
           shell: ${{ inputs.shell }}
           project: ${{ inputs.project }}
           get: type,powerPlatformSolutionFolder,appRevision,appBuild
 
       - name: Build
-        uses: Freddy-DK/AL-Go/Actions/BuildPowerPlatform@c28527ddff5623e1efb33163b6131d16663e38e6
+        uses: Freddy-DK/AL-Go/Actions/BuildPowerPlatform@9e27a0a699982e360c6c07e1ce09ca92403d8060
         with:
           shell: ${{ inputs.shell }}
           solutionFolder: ${{ inputs.project }}
@@ -83,7 +83,7 @@ jobs:
 
       - name: Calculate Artifact names
         id: calculateArtifactsNames
-        uses: Freddy-DK/AL-Go/Actions/CalculateArtifactNames@c28527ddff5623e1efb33163b6131d16663e38e6
+        uses: Freddy-DK/AL-Go/Actions/CalculateArtifactNames@9e27a0a699982e360c6c07e1ce09ca92403d8060
         if: success() || failure()
         with:
           shell: ${{ inputs.shell }}
