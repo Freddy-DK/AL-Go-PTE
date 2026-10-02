@@ -50,7 +50,7 @@ jobs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
     steps:
       - name: Dump Workflow Information
-        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@6a99dacf35115a68259af8cef5192f573a3fd351
+        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@07a22c28bf4ef6863e617b2340163a1a612aa07e
         with:
           shell: powershell
 
@@ -59,19 +59,19 @@ jobs:
 
       - name: Initialize the workflow
         id: init
-        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@6a99dacf35115a68259af8cef5192f573a3fd351
+        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@07a22c28bf4ef6863e617b2340163a1a612aa07e
         with:
           shell: powershell
 
       - name: Read settings
         id: ReadSettings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@6a99dacf35115a68259af8cef5192f573a3fd351
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@07a22c28bf4ef6863e617b2340163a1a612aa07e
         with:
           shell: powershell
 
       - name: Read secrets
         id: ReadSecrets
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@6a99dacf35115a68259af8cef5192f573a3fd351
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@07a22c28bf4ef6863e617b2340163a1a612aa07e
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -90,7 +90,7 @@ jobs:
             Write-Host "AdminCenterApiCredentials not provided, initiating Device Code flow"
             $ALGoHelperPath = "$([System.IO.Path]::GetTempFileName()).ps1"
             $webClient = New-Object System.Net.WebClient
-            $webClient.DownloadFile('https://raw.githubusercontent.com/Freddy-DK/AL-Go/Actions/6a99dacf35115a68259af8cef5192f573a3fd351/AL-Go-Helper.ps1', $ALGoHelperPath)
+            $webClient.DownloadFile('https://raw.githubusercontent.com/Freddy-DK/AL-Go/07a22c28bf4ef6863e617b2340163a1a612aa07e/Actions/AL-Go-Helper.ps1', $ALGoHelperPath)
             . $ALGoHelperPath
             DownloadAndImportBcContainerHelper
             $authContext = New-BcAuthContext -includeDeviceLogin -deviceLoginTimeout ([TimeSpan]::FromSeconds(0))
@@ -112,13 +112,13 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Read settings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@6a99dacf35115a68259af8cef5192f573a3fd351
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@07a22c28bf4ef6863e617b2340163a1a612aa07e
         with:
           shell: powershell
 
       - name: Read secrets
         id: ReadSecrets
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@6a99dacf35115a68259af8cef5192f573a3fd351
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@07a22c28bf4ef6863e617b2340163a1a612aa07e
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -137,7 +137,7 @@ jobs:
           Add-Content -Encoding UTF8 -Path $env:GITHUB_OUTPUT -value "adminCenterApiCredentials=$adminCenterApiCredentials"
 
       - name: Create Development Environment
-        uses: Freddy-DK/AL-Go/Actions/CreateDevelopmentEnvironment@6a99dacf35115a68259af8cef5192f573a3fd351
+        uses: Freddy-DK/AL-Go/Actions/CreateDevelopmentEnvironment@07a22c28bf4ef6863e617b2340163a1a612aa07e
         with:
           shell: powershell
           token: ${{ steps.ReadSecrets.outputs.TokenForPush }}
@@ -149,7 +149,7 @@ jobs:
 
       - name: Finalize the workflow
         if: always()
-        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@6a99dacf35115a68259af8cef5192f573a3fd351
+        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@07a22c28bf4ef6863e617b2340163a1a612aa07e
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
