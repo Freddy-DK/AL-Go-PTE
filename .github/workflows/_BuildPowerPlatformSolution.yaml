@@ -59,20 +59,20 @@ jobs:
     name: '${{ inputs.projectName }}'
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ inputs.checkoutRef }}
           lfs: true
 
       - name: Read settings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@9e27a0a699982e360c6c07e1ce09ca92403d8060
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@6a99dacf35115a68259af8cef5192f573a3fd351
         with:
           shell: ${{ inputs.shell }}
           project: ${{ inputs.project }}
           get: type,powerPlatformSolutionFolder,appRevision,appBuild
 
       - name: Build
-        uses: Freddy-DK/AL-Go/Actions/BuildPowerPlatform@9e27a0a699982e360c6c07e1ce09ca92403d8060
+        uses: Freddy-DK/AL-Go/Actions/BuildPowerPlatform@6a99dacf35115a68259af8cef5192f573a3fd351
         with:
           shell: ${{ inputs.shell }}
           solutionFolder: ${{ inputs.project }}
@@ -83,7 +83,7 @@ jobs:
 
       - name: Calculate Artifact names
         id: calculateArtifactsNames
-        uses: Freddy-DK/AL-Go/Actions/CalculateArtifactNames@9e27a0a699982e360c6c07e1ce09ca92403d8060
+        uses: Freddy-DK/AL-Go/Actions/CalculateArtifactNames@6a99dacf35115a68259af8cef5192f573a3fd351
         if: success() || failure()
         with:
           shell: ${{ inputs.shell }}

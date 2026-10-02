@@ -31,24 +31,24 @@ jobs:
       telemetryScopeJson: ${{ steps.init.outputs.telemetryScopeJson }}
     steps:
       - name: Dump Workflow Information
-        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@9e27a0a699982e360c6c07e1ce09ca92403d8060
+        uses: Freddy-DK/AL-Go/Actions/DumpWorkflowInfo@6a99dacf35115a68259af8cef5192f573a3fd351
         with:
           shell: powershell
 
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           lfs: true
 
       - name: Initialize the workflow
         id: init
-        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@9e27a0a699982e360c6c07e1ce09ca92403d8060
+        uses: Freddy-DK/AL-Go/Actions/WorkflowInitialize@6a99dacf35115a68259af8cef5192f573a3fd351
         with:
           shell: powershell
 
       - name: Read settings
         id: ReadSettings
-        uses: Freddy-DK/AL-Go/Actions/ReadSettings@9e27a0a699982e360c6c07e1ce09ca92403d8060
+        uses: Freddy-DK/AL-Go/Actions/ReadSettings@6a99dacf35115a68259af8cef5192f573a3fd351
         with:
           shell: powershell
           get: useGitSubmodules,shortLivedArtifactsRetentionDays
@@ -56,7 +56,7 @@ jobs:
       - name: Read submodules token
         id: ReadSubmodulesToken
         if: env.useGitSubmodules != 'false' && env.useGitSubmodules != ''
-        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@9e27a0a699982e360c6c07e1ce09ca92403d8060
+        uses: Freddy-DK/AL-Go/Actions/ReadSecrets@6a99dacf35115a68259af8cef5192f573a3fd351
         with:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
@@ -64,7 +64,7 @@ jobs:
 
       - name: Checkout Submodules
         if: env.useGitSubmodules != 'false' && env.useGitSubmodules != ''
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           lfs: true
           submodules: ${{ env.useGitSubmodules }}
@@ -78,7 +78,7 @@ jobs:
 
       - name: Determine Projects To Build
         id: determineProjectsToBuild
-        uses: Freddy-DK/AL-Go/Actions/DetermineProjectsToBuild@9e27a0a699982e360c6c07e1ce09ca92403d8060
+        uses: Freddy-DK/AL-Go/Actions/DetermineProjectsToBuild@6a99dacf35115a68259af8cef5192f573a3fd351
         with:
           shell: powershell
           maxBuildDepth: ${{ env.workflowDepth }}
@@ -111,11 +111,11 @@ jobs:
     runs-on: [ windows-latest ]
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Finalize the workflow
         id: PostProcess
-        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@9e27a0a699982e360c6c07e1ce09ca92403d8060
+        uses: Freddy-DK/AL-Go/Actions/WorkflowPostProcess@6a99dacf35115a68259af8cef5192f573a3fd351
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
